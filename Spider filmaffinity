@@ -4,7 +4,7 @@ import scrapy
 class FaVotesSpider(scrapy.Spider):
 	name = 'fa_votes'
   #enter your user_id domain here:
-	allowed_domains = ['0https://www.filmaffinity.com/uk/userratings.php?user_id=']
+	allowed_domains = ['https://www.filmaffinity.com/uk/userratings.php?user_id=']
 	
 	start_urls = ['http://www.filmaffinity.com/uk/userratings.php?user_id=/']
 

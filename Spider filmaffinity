@@ -1,0 +1,25 @@
+import scrapy
+
+
+class FaVotesSpider(scrapy.Spider):
+	name = 'fa_votes'
+  #enter your user_id domain here:
+	allowed_domains = ['0https://www.filmaffinity.com/uk/userratings.php?user_id=']
+	
+	start_urls = ['http://www.filmaffinity.com/uk/userratings.php?user_id=/']
+
+	def parse(self, response):
+
+		user_ratings=response.xpath('//*[@class="user-ratings-movie fa-shadow"]')
+		for ratings in user_ratings:
+			title=ratings.xpath('.//a/text()').extract_first()
+			rate=ratings.xpath('.//*[@class="ur-mr-rat"]/text()').extract_first()
+			
+			yield{"title": title,
+				"rate": rate,
+				}
+        
+		next_page_url=response.xpath('//*[@class="pager"]/a[text()=">>"]/@href').extract_first()
+		absolute_next_page_url=next_page_url
+		print(absolute_next_page_url)
+		yield scrapy.Request(absolute_next_page_url, dont_filter=True)
